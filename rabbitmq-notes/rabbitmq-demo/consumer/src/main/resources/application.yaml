@@ -5,3 +5,6 @@ spring:
     virtual-host: /test
     username: test
     password: 123
+    listener:
+      simple:
+        prefetch: 1 # 每次只获取一条消息，处理完才能获取下一个消息
