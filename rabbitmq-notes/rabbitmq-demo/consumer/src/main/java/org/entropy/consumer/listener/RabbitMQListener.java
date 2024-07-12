@@ -23,4 +23,14 @@ public class RabbitMQListener {
         System.err.println("consumer 2 receive message from work.queue.... [" + msg + "]");
         TimeUnit.MILLISECONDS.sleep(200);
     }
+
+    @RabbitListener(queues = "fanout.queue1")
+    public void listenFanoutQueue1(String msg) {
+        System.out.println("consumer receive message from fanout.queue1.... [" + msg + "]");
+    }
+
+    @RabbitListener(queues = "fanout.queue2")
+    public void listenFanoutQueue2(String msg) {
+        System.out.println("consumer receive message from fanout.queue2.... [" + msg + "]");
+    }
 }

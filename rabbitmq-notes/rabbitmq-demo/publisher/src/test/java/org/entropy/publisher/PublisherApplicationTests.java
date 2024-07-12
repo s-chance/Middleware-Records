@@ -28,4 +28,11 @@ public class PublisherApplicationTests {
             TimeUnit.MILLISECONDS.sleep(20);
         }
     }
+
+    @Test
+    void testFanout() {
+        String exchangeName = "test.fanout";
+        String msg = "this is a fanout message";
+        rabbitTemplate.convertAndSend(exchangeName, "", msg);
+    }
 }
