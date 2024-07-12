@@ -1,5 +1,9 @@
 package org.entropy.consumer.listener;
 
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -34,12 +38,20 @@ public class RabbitMQListener {
         System.out.println("consumer receive message from fanout.queue2.... [" + msg + "]");
     }
 
-    @RabbitListener(queues = "direct.queue1")
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "direct.queue1", durable = "true"),
+            exchange = @Exchange(name = "test.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "blue"}
+    ))
     public void listenDirectQueue1(String msg) {
         System.out.println("consumer receive message from direct.queue1.... [" + msg + "]");
     }
 
-    @RabbitListener(queues = "direct.queue2")
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "direct.queue2", durable = "true"),
+            exchange = @Exchange(name = "test.direct", type = ExchangeTypes.DIRECT),
+            key = {"red", "green"}
+    ))
     public void listenDirectQueue2(String msg) {
         System.out.println("consumer receive message from direct.queue2.... [" + msg + "]");
     }
