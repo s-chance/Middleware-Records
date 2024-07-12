@@ -33,4 +33,14 @@ public class RabbitMQListener {
     public void listenFanoutQueue2(String msg) {
         System.out.println("consumer receive message from fanout.queue2.... [" + msg + "]");
     }
+
+    @RabbitListener(queues = "direct.queue1")
+    public void listenDirectQueue1(String msg) {
+        System.out.println("consumer receive message from direct.queue1.... [" + msg + "]");
+    }
+
+    @RabbitListener(queues = "direct.queue2")
+    public void listenDirectQueue2(String msg) {
+        System.out.println("consumer receive message from direct.queue2.... [" + msg + "]");
+    }
 }

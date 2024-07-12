@@ -35,4 +35,12 @@ public class PublisherApplicationTests {
         String msg = "this is a fanout message";
         rabbitTemplate.convertAndSend(exchangeName, "", msg);
     }
+
+    @Test
+    void testDirect() {
+        String exchangeName = "test.direct";
+        String rk = "blue";
+        String msg = "this is a direct message from " + rk;
+        rabbitTemplate.convertAndSend(exchangeName, rk, msg);
+    }
 }
