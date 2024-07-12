@@ -43,4 +43,12 @@ public class PublisherApplicationTests {
         String msg = "this is a direct message from " + rk;
         rabbitTemplate.convertAndSend(exchangeName, rk, msg);
     }
+
+    @Test
+    void testTopic() {
+        String exchangeName = "test.topic";
+        String rk = "china.news";
+        String msg = "this is a topic message about " + rk;
+        rabbitTemplate.convertAndSend(exchangeName, rk, msg);
+    }
 }
