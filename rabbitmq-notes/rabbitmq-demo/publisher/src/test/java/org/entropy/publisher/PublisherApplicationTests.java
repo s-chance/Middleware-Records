@@ -5,6 +5,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
@@ -50,5 +52,13 @@ public class PublisherApplicationTests {
         String rk = "china.news";
         String msg = "this is a topic message about " + rk;
         rabbitTemplate.convertAndSend(exchangeName, rk, msg);
+    }
+
+    @Test
+    void testObject() {
+        Map<String, Object> msg = new HashMap<>();
+        msg.put("name", "tom");
+        msg.put("age", 22);
+        rabbitTemplate.convertAndSend("object.queue", msg);
     }
 }

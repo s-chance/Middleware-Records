@@ -7,6 +7,7 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -64,5 +65,10 @@ public class RabbitMQListener {
     @RabbitListener(queues = "topic.queue2")
     public void listenTopicQueue2(String msg) {
         System.out.println("consumer receive message from topic.queue2.... [" + msg + "]");
+    }
+
+    @RabbitListener(queues = "object.queue")
+    public void listenObjectQueue(Map<String, Object> msg) {
+        System.out.println("consumer receive message from object.queue.... [" + msg + "]");
     }
 }
