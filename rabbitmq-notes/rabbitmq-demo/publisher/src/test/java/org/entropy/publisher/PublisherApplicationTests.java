@@ -61,4 +61,9 @@ public class PublisherApplicationTests {
         msg.put("age", 22);
         rabbitTemplate.convertAndSend("object.queue", msg);
     }
+
+    @Test
+    void testConfirmCallback() {
+        rabbitTemplate.convertAndSend("test.direct","red", "hello");
+    }
 }
