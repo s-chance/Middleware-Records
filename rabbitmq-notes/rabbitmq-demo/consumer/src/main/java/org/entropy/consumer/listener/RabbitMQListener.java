@@ -2,6 +2,7 @@ package org.entropy.consumer.listener;
 
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
+import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -12,6 +13,8 @@ public class RabbitMQListener {
     @RabbitListener(queues = "simple.queue")
     public void listenSimpleQueueMessage(String msg) {
         System.out.println("consumer receive message from simple.queue [" + msg + "]");
+        // throw new RuntimeException("error"); // nack
+        // throw new MessageConversionException("message convert error"); // reject
     }
 
     @RabbitListener(queues = "work.queue")
