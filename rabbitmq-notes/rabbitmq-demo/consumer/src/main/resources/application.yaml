@@ -9,3 +9,5 @@ spring:
       simple:
         prefetch: 1 # 每次只获取一条消息，处理完才能获取下一个消息
         acknowledge-mode: auto # none，关闭ack；manual，手动ack；auto，自动ack
+        retry:
+          enabled: true  # 开启消费者失败重试
