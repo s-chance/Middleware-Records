@@ -1,10 +1,14 @@
 package org.entropy.publisher;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -65,5 +69,16 @@ public class PublisherApplicationTests {
     @Test
     void testConfirmCallback() {
         rabbitTemplate.convertAndSend("test.direct","red", "hello");
+    }
+
+    @Test
+    void testPageOut() {
+        Message message = MessageBuilder
+                .withBody("hello".getBytes(StandardCharsets.UTF_8))
+                .setDeliveryMode(MessageDeliveryMode.NON_PERSISTENT) // PERSISTENT
+                .build();
+        for (int i = 0; i < 1000_000; i++) {
+            rabbitTemplate.convertAndSend("simple.queue", message);
+        }
     }
 }
