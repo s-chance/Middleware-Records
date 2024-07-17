@@ -1,10 +1,7 @@
 package org.entropy.consumer.listener;
 
 import org.springframework.amqp.core.ExchangeTypes;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -70,5 +67,14 @@ public class RabbitMQListener {
     @RabbitListener(queues = "object.queue")
     public void listenObjectQueue(Map<String, Object> msg) {
         System.out.println("consumer receive message from object.queue.... [" + msg + "]");
+    }
+
+    @RabbitListener(queuesToDeclare = @Queue(
+            name = "lazy.queue",
+            durable = "true",
+            arguments = @Argument(name = "x-queue-mode", value = "lazy")
+    ))
+    public void listenLazyQueue(String msg) {
+        System.out.println("receive message from lazy.queue.... [" + msg + "]");
     }
 }
