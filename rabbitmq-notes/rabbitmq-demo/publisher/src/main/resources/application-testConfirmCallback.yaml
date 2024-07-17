@@ -1,0 +1,4 @@
+spring:
+  rabbitmq:
+    publisher-confirm-type: correlated # 开启 publisher confirm 机制，并设置 confirm 类型
+    publisher-returns: true # 开启 publisher return 机制
