@@ -1,5 +1,6 @@
 package org.entropy.consumer.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.messaging.converter.MessageConversionException;
@@ -8,12 +9,13 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class RabbitMQListener {
-    @RabbitListener(queues = "simple.queue")
+    // @RabbitListener(queues = "simple.queue")
     public void listenSimpleQueueMessage(String msg) {
         System.out.println("consumer receive message from simple.queue [" + msg + "]");
-         throw new RuntimeException("error"); // nack
+        throw new RuntimeException("error"); // nack
         // throw new MessageConversionException("message convert error"); // reject
     }
 
@@ -79,5 +81,10 @@ public class RabbitMQListener {
     ))
     public void listenLazyQueue(String msg) {
         System.out.println("receive message from lazy.queue.... [" + msg + "]");
+    }
+
+    @RabbitListener(queues = "dlx.queue")
+    public void listenDlxQueue(String msg) {
+        log.info("dlx.queue message: [" + msg + "]");
     }
 }

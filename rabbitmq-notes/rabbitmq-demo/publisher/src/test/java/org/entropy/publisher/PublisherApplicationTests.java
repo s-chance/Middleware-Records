@@ -1,9 +1,12 @@
 package org.entropy.publisher;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageDeliveryMode;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @SpringBootTest
 public class PublisherApplicationTests {
     @Autowired
@@ -80,5 +84,17 @@ public class PublisherApplicationTests {
         for (int i = 0; i < 1000_000; i++) {
             rabbitTemplate.convertAndSend("simple.queue", message);
         }
+    }
+
+    @Test
+    void testTTL() {
+        rabbitTemplate.convertAndSend("simple.direct", "delay", "this is a delay", new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws AmqpException {
+                message.getMessageProperties().setExpiration("10000"); // 10s
+                return message;
+            }
+        });
+        log.info("message send successfully!");
     }
 }
