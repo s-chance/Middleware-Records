@@ -97,4 +97,17 @@ public class PublisherApplicationTests {
         });
         log.info("message send successfully!");
     }
+
+    @Test
+    void testDelay() {
+        String message = "delayed message";
+        rabbitTemplate.convertAndSend("delay.direct", "delay", message, new MessagePostProcessor() {
+            @Override
+            public Message postProcessMessage(Message message) throws AmqpException {
+                message.getMessageProperties().setDelayLong(10000L);
+                return message;
+            }
+        });
+        log.info("message send successfully!");
+    }
 }

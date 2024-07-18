@@ -87,4 +87,13 @@ public class RabbitMQListener {
     public void listenDlxQueue(String msg) {
         log.info("dlx.queue message: [" + msg + "]");
     }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "delay.queue", durable = "true"),
+            exchange = @Exchange(name = "delay.direct", delayed = "true"),
+            key = "delay"
+    ))
+    public void listenDelayQueue(String msg) {
+        log.info("receive delayed message from delay.queue: {}", msg);
+    }
 }
