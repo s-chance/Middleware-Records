@@ -14,6 +14,8 @@ public class ConsumerApplication {
 
     @Bean
     public MessageConverter jacksonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
+        Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
+        jackson2JsonMessageConverter.setCreateMessageIds(true);
+        return jackson2JsonMessageConverter;
     }
 }
