@@ -1,3 +1,5 @@
+server:
+  port: 8888
 spring:
   rabbitmq:
     host: 127.0.0.1
