@@ -1,0 +1,18 @@
+### create order
+POST http://127.0.0.1:8888/order
+Content-Type: application/json
+
+{
+  "orderId": 10001
+}
+
+### check order
+POST http://127.0.0.1:8080/payOrder
+Content-Type: application/json
+
+{
+  "orderId": 10001
+}
+
+### pay order
+POST http://127.0.0.1:8080/pay/10001
