@@ -1,3 +1,6 @@
 [submodule "nginx-notes/nginx-demo"]
 	path = nginx-notes/nginx-demo
 	url = git@github.com:s-chance/nginx-demo.git
+[submodule "redis-notes/redis-demo"]
+	path = redis-notes/redis-demo
+	url = git@github.com:s-chance/redis-demo.git
