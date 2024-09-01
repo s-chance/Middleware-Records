@@ -5,25 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce00e914-95b3-4822-b1ef-bf48d8259dda" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/7cbbfe1a-92de-4ad5-a450-569ac54c661c.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/7cbbfe1a-92de-4ad5-a450-569ac54c661c/storage_v2/_src_/schema/db.fgwAAA.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/docker-compose.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rest-client/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/RestClientApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/constant/HotelConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/controller/HotelController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/mapper/HotelMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/pojo/Hotel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/java/org/entropy/restclient/service/HotelService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/main/resources/application.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rest-client/src/test/java/org/entropy/restclient/RestClientApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -51,6 +56,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Docker.common/docker-compose.yaml.mysql: Compose Deployment.executor": "Run",
+    "JUnit.RestClientApplicationTests.testCreateIndex.executor": "Run",
+    "JUnit.RestClientApplicationTests.testInit.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -61,6 +68,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
   },
@@ -70,7 +80,78 @@
     ]
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.RestClientApplicationTests.testExistsIndex">
+    <configuration name="RestClientApplicationTests.testCreateIndex" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.entropy.restclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.entropy.restclient" />
+      <option name="MAIN_CLASS_NAME" value="org.entropy.restclient.RestClientApplicationTests" />
+      <option name="METHOD_NAME" value="testCreateIndex" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestClientApplicationTests.testDeleteIndex" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.entropy.restclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.entropy.restclient" />
+      <option name="MAIN_CLASS_NAME" value="org.entropy.restclient.RestClientApplicationTests" />
+      <option name="METHOD_NAME" value="testDeleteIndex" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestClientApplicationTests.testExistsIndex" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.entropy.restclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.entropy.restclient" />
+      <option name="MAIN_CLASS_NAME" value="org.entropy.restclient.RestClientApplicationTests" />
+      <option name="METHOD_NAME" value="testExistsIndex" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestClientApplicationTests.testInit" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rest-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.entropy.restclient.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.entropy.restclient" />
+      <option name="MAIN_CLASS_NAME" value="org.entropy.restclient.RestClientApplicationTests" />
+      <option name="METHOD_NAME" value="testInit" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestClientApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="rest-client" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.entropy.restclient.RestClientApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
@@ -92,6 +173,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.RestClientApplicationTests.testExistsIndex" />
+        <item itemvalue="JUnit.RestClientApplicationTests.testDeleteIndex" />
+        <item itemvalue="JUnit.RestClientApplicationTests.testCreateIndex" />
+        <item itemvalue="JUnit.RestClientApplicationTests.testInit" />
         <item itemvalue="Docker.common/docker-compose.yaml.mysql: Compose Deployment" />
       </list>
     </recent_temporary>
@@ -113,7 +198,9 @@
       <option name="presentableId" value="Default" />
       <updated>1725176092042</updated>
       <workItem from="1725176093406" duration="708000" />
-      <workItem from="1725177248352" duration="1145000" />
+      <workItem from="1725177248352" duration="3178000" />
+      <workItem from="1725185980975" duration="3486000" />
+      <workItem from="1725191106173" duration="420000" />
     </task>
     <servers />
   </component>
