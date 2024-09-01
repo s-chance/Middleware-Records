@@ -1,0 +1,15 @@
+services:
+  mysql:
+    container_name: es-mysql
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: 12345
+    volumes:
+      - es-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+volumes:
+  es-mysql-data:
