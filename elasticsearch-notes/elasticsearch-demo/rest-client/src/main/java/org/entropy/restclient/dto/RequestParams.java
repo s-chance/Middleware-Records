@@ -13,4 +13,5 @@ public class RequestParams {
     private String city;
     private Integer minPrice;
     private Integer maxPrice;
+    private String location;
 }

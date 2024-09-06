@@ -7,10 +7,14 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.geo.GeoPoint;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.entropy.restclient.dto.RequestParams;
 import org.entropy.restclient.mapper.HotelMapper;
 import org.entropy.restclient.pojo.Hotel;
@@ -62,6 +66,16 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
 
         request.source().query(boolQuery);
 
+        // 距离排序
+        String location = params.getLocation();
+        if (location != null && !location.isEmpty()) {
+            request.source()
+                    .sort(SortBuilders
+                            .geoDistanceSort("location", new GeoPoint(location))
+                            .order(SortOrder.ASC)
+                            .unit(DistanceUnit.KILOMETERS));
+        }
+
         int page = params.getPage();
         int size = params.getSize();
         request.source()
@@ -90,6 +104,12 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
             HotelDoc hotelDoc = null;
             try {
                 hotelDoc = mapper.readValue(json, HotelDoc.class);
+                // 获取距离排序值
+                Object[] sortValues = hit.getSortValues();
+                if (sortValues.length > 0) {
+                    Object sortValue = sortValues[0];
+                    hotelDoc.setDistance(sortValue);
+                }
                 hotels.add(hotelDoc);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
