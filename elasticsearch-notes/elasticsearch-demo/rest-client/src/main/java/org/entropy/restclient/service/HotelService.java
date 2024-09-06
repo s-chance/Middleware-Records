@@ -7,6 +7,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
@@ -31,14 +32,36 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
 
     public PageResult search(RequestParams params) {
         SearchRequest request = new SearchRequest("hotel");
+        // boolean query
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         String key = params.getKey();
         if (key == null || key.isEmpty()) {
-            request.source()
-                    .query(QueryBuilders.matchAllQuery());
+            boolQuery.must(QueryBuilders.matchAllQuery());
         } else {
-            request.source()
-                    .query(QueryBuilders.matchQuery("all", key));
+            boolQuery.must(QueryBuilders.matchQuery("all", key));
         }
+        // city精确匹配
+        if (params.getCity() != null && !params.getCity().isEmpty()) {
+            boolQuery.filter(QueryBuilders.termQuery("city", params.getCity()));
+        }
+        // brand精确匹配
+        if (params.getBrand() != null && !params.getBrand().isEmpty()) {
+            boolQuery.filter(QueryBuilders.termQuery("brand", params.getBrand()));
+        }
+        // starName精确匹配
+        if (params.getStarName() != null && !params.getStarName().isEmpty()) {
+            boolQuery.filter(QueryBuilders.termQuery("starName", params.getStarName()));
+        }
+        // price范围过滤
+        if (params.getMinPrice() != null && params.getMaxPrice() != null) {
+            boolQuery.filter(QueryBuilders
+                    .rangeQuery("price")
+                    .gte(params.getMinPrice())
+                    .lte(params.getMaxPrice()));
+        }
+
+        request.source().query(boolQuery);
+
         int page = params.getPage();
         int size = params.getSize();
         request.source()
