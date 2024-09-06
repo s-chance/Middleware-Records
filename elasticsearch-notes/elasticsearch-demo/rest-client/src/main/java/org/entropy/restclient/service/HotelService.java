@@ -11,6 +11,8 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
+import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.sort.SortBuilders;
@@ -82,6 +84,17 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
                 .from((page - 1) * size)
                 .size(size);
 
+        FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(
+                boolQuery,
+                new FunctionScoreQueryBuilder.FilterFunctionBuilder[]{
+                        new FunctionScoreQueryBuilder.FilterFunctionBuilder(
+                                QueryBuilders.termQuery("isAD", true),
+                                ScoreFunctionBuilders.weightFactorFunction(5)
+                        )
+                }
+        );
+        request.source().query(functionScoreQueryBuilder);
+
         SearchResponse search = null;
         try {
             search = client.search(request, RequestOptions.DEFAULT);
@@ -110,6 +123,9 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
                     Object sortValue = sortValues[0];
                     hotelDoc.setDistance(sortValue);
                 }
+                // 获取算分
+                float score = hit.getScore();
+                hotelDoc.set_score(score);
                 hotels.add(hotelDoc);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
