@@ -27,7 +27,7 @@ public class HotelController {
     }
 
     @GetMapping("/agg")
-    public Map<String, List<String>> filters() {
-        return hotelService.filters();
+    public Map<String, List<String>> filters(@RequestBody RequestParams params) {
+        return hotelService.filters(params);
     }
 }
