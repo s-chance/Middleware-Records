@@ -15,6 +15,10 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.Aggregation;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.entropy.restclient.dto.RequestParams;
@@ -26,7 +30,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
@@ -132,5 +138,58 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
             }
         }
         return new PageResult(total, hotels);
+    }
+
+    public Map<String, List<String>> filters() {
+        SearchRequest request = new SearchRequest("hotel");
+        // 聚合
+        buildAggregation(request);
+        SearchResponse search = null;
+        try {
+            search = client.search(request, RequestOptions.DEFAULT);
+            Map<String, List<String>> result = new HashMap<>();
+            Aggregations aggregations = search.getAggregations();
+            List<String> brandList = getAggByName(aggregations, "brandAgg");
+            List<String> cityList = getAggByName(aggregations, "cityAgg");
+            List<String> starList = getAggByName(aggregations, "starAgg");
+            result.put("品牌", brandList);
+            result.put("城市", cityList);
+            result.put("星级", starList);
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static List<String> getAggByName(Aggregations aggregations, String aggName) {
+        Terms brandAgg = aggregations.get(aggName);
+        List<? extends Terms.Bucket> buckets = brandAgg.getBuckets();
+        List<String> brandList = new ArrayList<>();
+        for (Terms.Bucket bucket : buckets) {
+            String key = bucket.getKeyAsString();
+            brandList.add(key);
+        }
+        return brandList;
+    }
+
+    private static void buildAggregation(SearchRequest request) {
+        request.source()
+                .size(0)
+                .aggregation(AggregationBuilders
+                        .terms("brandAgg")
+                        .field("brand")
+                        .size(10));
+        request.source()
+                .size(0)
+                .aggregation(AggregationBuilders
+                        .terms("cityAgg")
+                        .field("brand")
+                        .size(10));
+        request.source()
+                .size(0)
+                .aggregation(AggregationBuilders
+                        .terms("starAgg")
+                        .field("starName")
+                        .size(10));
     }
 }

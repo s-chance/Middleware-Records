@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/hotel")
 public class HotelController {
@@ -21,5 +24,10 @@ public class HotelController {
     @GetMapping("/list")
     public PageResult search(@RequestBody RequestParams params) {
         return hotelService.search(params);
+    }
+
+    @GetMapping("/agg")
+    public Map<String, List<String>> filters() {
+        return hotelService.filters();
     }
 }
