@@ -3,10 +3,7 @@ package org.entropy.restclient.controller;
 import org.entropy.restclient.dto.RequestParams;
 import org.entropy.restclient.service.HotelService;
 import org.entropy.restclient.vo.PageResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +26,10 @@ public class HotelController {
     @GetMapping("/agg")
     public Map<String, List<String>> filters(@RequestBody RequestParams params) {
         return hotelService.filters(params);
+    }
+
+    @GetMapping("/suggestion")
+    public List<String> suggest(@RequestParam("key") String prefix) {
+        return hotelService.suggest(prefix);
     }
 }

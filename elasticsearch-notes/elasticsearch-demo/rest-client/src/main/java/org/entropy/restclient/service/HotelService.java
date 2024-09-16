@@ -21,6 +21,10 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.SuggestBuilders;
+import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
 import org.entropy.restclient.dto.RequestParams;
 import org.entropy.restclient.mapper.HotelMapper;
 import org.entropy.restclient.pojo.Hotel;
@@ -198,5 +202,23 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
                         .terms("starAgg")
                         .field("starName")
                         .size(10));
+    }
+
+    public List<String> suggest(String prefix) {
+        SearchRequest request = new SearchRequest("hotel");
+        request.source().suggest(new SuggestBuilder().addSuggestion(
+                "suggestions",
+                SuggestBuilders.completionSuggestion("suggestion")
+                        .prefix(prefix)
+                        .skipDuplicates(true)
+                        .size(10)
+        ));
+        try {
+            SearchResponse response = client.search(request, RequestOptions.DEFAULT);
+            CompletionSuggestion suggestions = response.getSuggest().getSuggestion("suggestions");
+            return suggestions.getOptions().stream().map(option -> option.getText().string()).toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
