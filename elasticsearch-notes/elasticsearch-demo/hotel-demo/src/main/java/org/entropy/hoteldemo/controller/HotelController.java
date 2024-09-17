@@ -1,9 +1,11 @@
 package org.entropy.hoteldemo.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.entropy.hoteldemo.constant.MqConstant;
 import org.entropy.hoteldemo.pojo.Hotel;
 import org.entropy.hoteldemo.service.HotelService;
 import org.entropy.hoteldemo.vo.PageResult;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.InvalidParameterException;
@@ -13,9 +15,11 @@ import java.security.InvalidParameterException;
 public class HotelController {
 
     private final HotelService hotelService;
+    private final RabbitTemplate rabbitTemplate;
 
-    public HotelController(HotelService hotelService) {
+    public HotelController(HotelService hotelService, RabbitTemplate rabbitTemplate) {
         this.hotelService = hotelService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/{id}")
@@ -35,6 +39,7 @@ public class HotelController {
     @PostMapping
     public void saveHotel(@RequestBody Hotel hotel) {
         hotelService.save(hotel);
+        rabbitTemplate.convertAndSend(MqConstant.HOTEL_EXCHANGE, MqConstant.HOTEL_INSERT_KEY, hotel.getId());
     }
 
     @PutMapping
@@ -43,10 +48,12 @@ public class HotelController {
             throw new InvalidParameterException("id can't be null");
         }
         hotelService.updateById(hotel);
+        rabbitTemplate.convertAndSend(MqConstant.HOTEL_EXCHANGE, MqConstant.HOTEL_INSERT_KEY, hotel.getId());
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable("id") Long id) {
         hotelService.removeById(id);
+        rabbitTemplate.convertAndSend(MqConstant.HOTEL_EXCHANGE, MqConstant.HOTEL_DELETE_KEY, id);
     }
 }
