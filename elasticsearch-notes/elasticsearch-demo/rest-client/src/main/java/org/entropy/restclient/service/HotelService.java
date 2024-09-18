@@ -3,12 +3,15 @@ package org.entropy.restclient.service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.DistanceUnit;
+import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
@@ -217,6 +220,32 @@ public class HotelService extends ServiceImpl<HotelMapper, Hotel> {
             SearchResponse response = client.search(request, RequestOptions.DEFAULT);
             CompletionSuggestion suggestions = response.getSuggest().getSuggestion("suggestions");
             return suggestions.getOptions().stream().map(option -> option.getText().string()).toList();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertOrUpdateById(Long id) {
+        try {
+            // 获取文档对象数据
+            Hotel hotel = getById(id);
+            HotelDoc hotelDoc = new HotelDoc(hotel);
+            // request请求
+            IndexRequest request = new IndexRequest("hotel").id(hotel.getId().toString());
+            // DSL构建
+            ObjectMapper mapper = new ObjectMapper();
+            request.source(mapper.writeValueAsString(hotelDoc), XContentType.JSON);
+            // 发送请求
+            client.index(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteById(Long id) {
+        try {
+            DeleteRequest request = new DeleteRequest("hotel", id.toString());
+            client.delete(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
