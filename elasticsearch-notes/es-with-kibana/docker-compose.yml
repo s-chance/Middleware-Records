@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.1
+    container_name: es
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.type=single-node"
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+      - es-plugins:/usr/share/elasticsearch/plugins
+    privileged: true
+    networks:
+      - es-net
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.1
+    container_name: kibana
+    environment:
+      - "ELASTICSEARCH_HOSTS=http://es:9200"
+    networks:
+      - es-net
+    ports:
+      - "5601:5601"
+
+volumes:
+  es-data:
+  es-plugins:
+networks:
+  es-net:
